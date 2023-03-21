@@ -1,0 +1,29 @@
+version: '3.6'
+
+services:
+  arquitetura-micros-servicos:
+    container_name: arquitetura-micros-servicos
+    build: 
+      context: ./
+      dockerfile: DockerFile
+    tty: true
+    ports:
+      - "2022:2022"
+    volumes:
+      - ./projetos:/projetos/arquitetura-micros-servicos
+  db:
+    image: mysql
+    container_name: mysql-arquitetura-micros-servicos
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "2019:3306"
+    volumes: 
+      - ./mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: arquitetura-micros-servicos
+      MYSQL_USER: teste
+      MYSQL_PASSWORD: teste

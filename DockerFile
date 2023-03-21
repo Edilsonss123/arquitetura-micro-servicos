@@ -1,0 +1,28 @@
+# Informa ao Docker qual container iremos utilizar
+FROM ubuntu:18.04
+
+
+# Instalacao libs necessarias
+RUN apt-get update
+RUN apt-get -y install curl wget apt-utils apt-transport-https lsb-release gnupg
+RUN apt-get install lsof
+RUN apt-get install nano
+
+# Instalacao .net
+RUN wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN apt-get update
+RUN apt-get install -y dotnet-sdk-6.0
+RUN dotnet tool install -g dotnet-aspnet-codegenerator --version 6.0.0
+
+# Instalação da ferramente do ef para migrations e adição na variável de sistema
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+# Cria o diretório codes na raiz do container
+RUN mkdir -p /projetos
+
+ENV DOTNET_USE_POLLING_FILE_WATCHER 1
+# Define o diretório codes como diretório de trabalho
+# Isso vai espelhar a pasta codes no diretório debian-core para a pasta codes no container
+WORKDIR /projetos
