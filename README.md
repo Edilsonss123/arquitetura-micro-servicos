@@ -7,6 +7,7 @@ Trabalhando com arquitetura de micro serviço c# e docker
 
 - Após gerar o build da imagem inicie um novo container:
 ``docker-composer up -d``
+O container será gerado com o dotnet6 + mysql 8.0.32
 
 - acesse o container criado
 
